@@ -34,9 +34,16 @@ namespace Wedgest.Controllers
         [HttpGet("Tickets/{id:int}")]
         public async Task<ActionResult<TicketDtos>> Get(int id)
         {
-            var TicketById = await _ticketRepositry.Get(id);
-            var TicketDto = _mapper.Map<TicketDtos>(TicketById);
-            return Ok(TicketDto);
+            if (id == 0 )
+            {
+                return NotFound($"This {id} Is Not Found");
+            }
+            else
+            {
+                var TicketById = await _ticketRepositry.Get(id);
+                var TicketDto = _mapper.Map<TicketDtos>(TicketById);
+                return Ok(TicketDto);
+            }
         }
 
         [HttpPost("Tickets")]
@@ -86,7 +93,7 @@ namespace Wedgest.Controllers
                 _ticketRepositry.Delete(id);
                 return Ok();
             }
-
+           
             return Ok($"This {id} is not Exist");
         }
     }
