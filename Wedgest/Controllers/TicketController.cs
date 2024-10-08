@@ -47,7 +47,7 @@ namespace Wedgest.Controllers
         }
 
         [HttpPost("Tickets")]
-        public async Task<ActionResult<TicketDtos>> Post(Ticket ticket)
+        public async Task<ActionResult<TicketDtos>> Post(TicketDtos ticket)
         {
             var Ticketsrc = new Ticket()
             {

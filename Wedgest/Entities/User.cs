@@ -8,7 +8,7 @@ namespace Wedgest.Entities
         [Key]
         public int id { get; set; }
        
-        public int userName { get; set; }
+        public string? userName { get; set; }
         public int age { get; set; }
 
         public string? job { get; set; }

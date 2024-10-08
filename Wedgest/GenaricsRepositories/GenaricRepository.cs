@@ -10,12 +10,14 @@ namespace Wedgest.Repositories
         #region Fields
         private readonly ApplicationContext _context;
         #endregion
+        
         #region Constracturs
         public GenaricRepository(ApplicationContext context)
         {
             _context = context;
         }
         #endregion
+        
         #region hamdle Methodes
         public async Task Add(T t)
         {
