@@ -20,9 +20,10 @@
   - PUT: Update an existing ticket
   - DELETE: Remove a ticket
   - GET: Retrieve a list of all tickets
-
+# using pacage Auto mapper  "dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection" 
+ -To use a Data Transfer Object (DTO) and specify what data should be shown to the user.
 # Improved Separation of Concerns
-- Refactored to use the repository pattern for better code structure and reusability
+  - Refactored to use the repository pattern for better code structure and reusability
 
 
 # using my sql over Docker 
