@@ -19,14 +19,17 @@ namespace Wedgest
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            #region Resgister My services
             builder.Services.AddScoped<ApplicationContext>();
             builder.Services.AddDbContext<ApplicationContext>(options =>
             options.UseMySql(
               builder.Configuration.GetConnectionString("Conf"),
                   new MySqlServerVersion(new Version(8, 0, 2))));
             builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenaricRepository<>));
-            builder.Services.AddScoped<ITicketRepositry,TiketRepository>();
+            builder.Services.AddScoped<ITicketRepositry, TiketRepository>();
             builder.Services.AddAutoMapper(typeof(MapTickets));
+            #endregion
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
