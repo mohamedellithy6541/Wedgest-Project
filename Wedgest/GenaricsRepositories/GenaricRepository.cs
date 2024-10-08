@@ -33,10 +33,10 @@ namespace Wedgest.Repositories
         => await _context.Set<T>().FindAsync(id);
         public async Task<IEnumerable<T>> GetAll()
          => await _context.Set< T>().ToListAsync();
-        public void Update(int id, T t)
+        public async Task Updated(int id, T t)
         {
-            var entityById = Get(id);
-            _context.Update(entityById);
+            var UpdatedTicket =await Get(id);
+            _context.Update(UpdatedTicket);
             _context.SaveChanges();
         } 
         #endregion

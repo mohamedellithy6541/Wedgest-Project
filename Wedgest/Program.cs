@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Wedgest.Data;
+using Wedgest.DTOS;
 using Wedgest.Repositories;
 using Wedgest.TicketRepo;
 
@@ -25,6 +26,7 @@ namespace Wedgest
                   new MySqlServerVersion(new Version(8, 0, 2))));
             builder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenaricRepository<>));
             builder.Services.AddScoped<ITicketRepositry,TiketRepository>();
+            builder.Services.AddAutoMapper(typeof(MapTickets));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

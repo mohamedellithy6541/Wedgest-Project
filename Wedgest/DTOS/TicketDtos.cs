@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Wedgest.Entities;
 
-namespace Wedgest.Entities
+namespace Wedgest.DTOS
 {
-    public class Ticket
+    public class TicketDtos
     {
-        [Key]
         public int TicketId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
@@ -12,9 +11,5 @@ namespace Wedgest.Entities
         public DateTime? ToData { get; set; }
         public Status Status { get; set; }
         public int? userId { get; set; }
-        public User? user { get; set; }
-
-
-
     }
 }

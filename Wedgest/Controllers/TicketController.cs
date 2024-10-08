@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Wedgest.DTOS;
 using Wedgest.Entities;
 using Wedgest.TicketRepo;
 
@@ -11,68 +13,81 @@ namespace Wedgest.Controllers
     {
         #region Field
         private readonly ITicketRepositry _ticketRepositry;
+        private readonly IMapper _mapper;
         #endregion
 
         #region constractur
-        public TicketController(ITicketRepositry ticketRepositry)
+        public TicketController(ITicketRepositry ticketRepositry, IMapper mapper)
         {
             _ticketRepositry = ticketRepositry;
+            _mapper = mapper;
         }
         #endregion
 
         [HttpGet("Tickets")]
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TicketDtos>>> GetAll()
         {
-            var tickets =await _ticketRepositry.GetAll();
-            return Ok(tickets);
+            var tickets = await _ticketRepositry.GetAll();
+            var TicketDto = _mapper.Map<IEnumerable<TicketDtos>>(tickets);
+            return Ok(TicketDto);
         }
         [HttpGet("Tickets/{id:int}")]
-        public async Task<ActionResult<Ticket>> Get(int id)
+        public async Task<ActionResult<TicketDtos>> Get(int id)
         {
-           var TicketById=await _ticketRepositry.Get(id);
-            return Ok(TicketById);
+            var TicketById = await _ticketRepositry.Get(id);
+            var TicketDto = _mapper.Map<TicketDtos>(TicketById);
+            return Ok(TicketDto);
         }
 
         [HttpPost("Tickets")]
-        public IActionResult Post(Ticket ticket)
+        public async Task<ActionResult<TicketDtos>> Post(Ticket ticket)
         {
-            var AddedTicket= _ticketRepositry.Add(ticket);
-            return Ok(AddedTicket);
+            var Ticketsrc = new Ticket()
+            {
+                Description = ticket.Description,
+                FromData = ticket.FromData,
+                Status = ticket.Status,
+                TicketId = ticket.TicketId,
+                ToData = ticket.ToData,
+                Title = ticket.Title,
+                userId = ticket.userId
+
+            };
+            await _ticketRepositry.Add(Ticketsrc);
+            var TicketDto = _mapper.Map<TicketDtos>(Ticketsrc);
+            return Ok(TicketDto);
         }
 
         [HttpPut("Tickets")]
-        public async  Task<IActionResult> Edite(int id,Ticket ticket)
+        public async Task<ActionResult<TicketDtos>> Edite(int id, TicketDtos ticket)
         {
             var updatedTicked = await _ticketRepositry.Get(id);
-            if (updatedTicked != null) 
+            if (updatedTicked != null)
             {
-                updatedTicked.Title= ticket.Title;
-                updatedTicked.Description= ticket.Description;
-                updatedTicked.Status= ticket.Status;
-                updatedTicked.FromData= ticket.FromData;
-                updatedTicked.ToData= ticket.ToData;
-               
-                 return Ok(updatedTicked);
+                updatedTicked.Title = ticket.Title;
+                updatedTicked.Description = ticket.Description;
+                updatedTicked.Status = ticket.Status;
+                updatedTicked.FromData = ticket.FromData;
+                updatedTicked.ToData = ticket.ToData;
 
+                _ticketRepositry.Updated(id, updatedTicked);
+                var TicketDto =  _mapper.Map<TicketDtos>(updatedTicked);
+                return Ok(TicketDto);
             }
             return Ok($"this {id} IS Not Exist  ");
         }
 
 
         [HttpDelete("Tickets/{id:int}")]
-
         public async Task<IActionResult> Delete(int id)
-        { 
-            if (id != 0) 
+        {
+            if (id != 0)
             {
                 _ticketRepositry.Delete(id);
                 return Ok();
             }
-           
+
             return Ok($"This {id} is not Exist");
         }
-
-
-
     }
 }

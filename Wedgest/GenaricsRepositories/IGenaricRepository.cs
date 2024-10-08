@@ -8,7 +8,7 @@ namespace Wedgest.Repositories
         Task<IEnumerable<T>> GetAll();
         Task<T> Get(int id);
         Task Add(T t);
-        void Update(int id, T t);
+        Task Updated(int id, T t);
         void Delete(int id);
         #endregion
     }
