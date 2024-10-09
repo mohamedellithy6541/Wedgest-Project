@@ -69,8 +69,8 @@ namespace Wedgest.Migrations
                     b.Property<string>("job")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("userName")
-                        .HasColumnType("int");
+                    b.Property<string>("userName")
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("id");
 
@@ -78,6 +78,22 @@ namespace Wedgest.Migrations
                         .IsUnique();
 
                     b.ToTable("user");
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            age = 0,
+                            job = "admin",
+                            userName = "Mohamed"
+                        },
+                        new
+                        {
+                            id = 2,
+                            age = 0,
+                            job = "student",
+                            userName = "Mostafa"
+                        });
                 });
 
             modelBuilder.Entity("Wedgest.Entities.Ticket", b =>

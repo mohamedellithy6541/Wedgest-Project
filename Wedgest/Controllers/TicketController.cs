@@ -15,7 +15,6 @@ namespace Wedgest.Controllers
         private readonly ITicketRepositry _ticketRepositry;
         private readonly IMapper _mapper;
         #endregion
-
         #region constractur
         public TicketController(ITicketRepositry ticketRepositry, IMapper mapper)
         {
@@ -45,7 +44,6 @@ namespace Wedgest.Controllers
                 return Ok(TicketDto);
             }
         }
-
         [HttpPost("Tickets")]
         public async Task<ActionResult<TicketDtos>> Post(TicketDtos ticket)
         {
@@ -64,10 +62,10 @@ namespace Wedgest.Controllers
             var TicketDto = _mapper.Map<TicketDtos>(Ticketsrc);
             return Ok(TicketDto);
         }
-
         [HttpPut("Tickets")]
         public async Task<ActionResult<TicketDtos>> Edite(int id, TicketDtos ticket)
-        {
+        {   if (id==0) 
+            return BadRequest("please Enter Valid Id ");
             var updatedTicked = await _ticketRepositry.Get(id);
             if (updatedTicked != null)
             {
@@ -76,24 +74,20 @@ namespace Wedgest.Controllers
                 updatedTicked.Status = ticket.Status;
                 updatedTicked.FromData = ticket.FromData;
                 updatedTicked.ToData = ticket.ToData;
-
-                _ticketRepositry.Updated(id, updatedTicked);
+                _ticketRepositry?.Updated(id, updatedTicked);
                 var TicketDto =  _mapper.Map<TicketDtos>(updatedTicked);
                 return Ok(TicketDto);
             }
             return Ok($"this {id} IS Not Exist  ");
         }
-
-
         [HttpDelete("Tickets/{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (id != 0)
             {
-                _ticketRepositry.Delete(id);
+               _ticketRepositry.Delete(id);
                 return Ok();
             }
-           
             return Ok($"This {id} is not Exist");
         }
     }
