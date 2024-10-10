@@ -58,8 +58,8 @@ namespace Wedgest.Controllers
                 userId = ticket.userId
 
             };
-            await _ticketRepositry.Add(Ticketsrc);
             var TicketDto = _mapper.Map<TicketDtos>(Ticketsrc);
+            await _ticketRepositry.Add(Ticketsrc);
             return Ok(TicketDto);
         }
         [HttpPut("Tickets")]
