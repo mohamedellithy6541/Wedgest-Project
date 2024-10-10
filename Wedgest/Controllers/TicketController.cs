@@ -52,7 +52,6 @@ namespace Wedgest.Controllers
                 Description = ticket.Description,
                 FromData = ticket.FromData,
                 Status = ticket.Status,
-                TicketId = ticket.TicketId,
                 ToData = ticket.ToData,
                 Title = ticket.Title,
                 userId = ticket.userId
